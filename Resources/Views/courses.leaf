@@ -1,0 +1,24 @@
+
+#extend("base")
+#export("head") {
+	<title>Courses</title>
+
+}
+
+#export("body") {
+	<table>
+		<tr>
+			<td>Course name</td>
+			<td>Course date</td>
+			<td>Add documents</td>
+		</tr>
+	#loop(courses, "course") {
+		<tr>
+			<td>#(course.name)</td>
+			<td>#(course.date)</td>
+			<td><a href="/documents/add/#(course.id)">Add document</a></td>
+		</tr>
+
+	}
+</table>
+}

@@ -1,0 +1,15 @@
+#extend("base")
+#export("head") {
+	<title>Add Resource</title>
+}
+
+#export("body") {
+	<form name="addDocument" action="/documents" method="post" enctype="multipart/form-data">
+		<label for="name">File name</label></br>
+		<input name="courseId" type="hidden" value="#(course.id)"><br/>
+		<input name="name" type="text"></br>
+		<label for="file">File</label></br>
+		<input name="file" type="file"></br>
+		<input type="submit" value="Téléverser">
+	</form>
+}
