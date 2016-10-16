@@ -19,12 +19,34 @@ final class Course: Model {
         date = Date(timeIntervalSince1970: timestamp)
     }
     
+    public convenience init(content: Content) throws {
+        guard let name = content["name"]?.string,
+            let date = content["date"]?.double else {
+                
+                throw Abort.badRequest
+        }
+        
+        self.init(name: name, date: Date(timeIntervalSince1970: date))
+        
+    }
+    
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
             "name": name,
             "date": date.timeIntervalSince1970.makeNode()
             ])
+    }
+    
+    func format() throws -> Node {
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return try Node(node: [
+            "id": id,
+            "name": name,
+            "date": formatter.string(from: date)
+        ])
     }
     
     static func prepare(_ database: Database) throws {
