@@ -11,12 +11,14 @@
 			<td>Course name</td>
 			<td>Course date</td>
 			<td>Add documents</td>
+			<td>Documents</td>
 		</tr>
 	#loop(courses, "course") {
 		<tr>
 			<td>#(course.name)</td>
 			<td>#(course.date)</td>
 			<td><a href="/documents/add/#(course.id)">Add document</a></td>
+			<td>#loop(course.documents, "document") { <a href="#(document.path)">#(document.name)</a> }</td>
 		</tr>
 
 	}

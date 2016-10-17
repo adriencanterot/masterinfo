@@ -2,6 +2,7 @@ import Vapor
 import HTTP
 
 final class DocumentController: ResourceRepresentable {
+    
     func index(request: Request) throws -> ResponseRepresentable {
         let courses = try Course.all().map { try $0.format() }
         return try drop.view.make("courses.leaf", ["courses": courses.makeNode()])

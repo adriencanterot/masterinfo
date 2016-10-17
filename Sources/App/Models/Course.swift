@@ -27,7 +27,8 @@ final class Course: Model {
         return try Node(node: [
             "id": id,
             "name": name,
-            "date": dateFormatter.string(from: date)
+            "date": dateFormatter.string(from: date),
+            "documents": try documents().all().makeNode()
             ])
     }
     
@@ -51,4 +52,10 @@ final class Course: Model {
         try database.delete(entity)
     }
     
+}
+
+extension Course {
+    func documents() -> Children<Document> {
+        return children()
+    }
 }

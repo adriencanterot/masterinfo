@@ -5,12 +5,11 @@ import Foundation
 final class Document: Model {
 
 
-    var id:Node?
-    var name:String
-    var file:Multipart.File?
-    var path: String
-    
+    var id: Node?
     var courseId: Node?
+    var name: String
+    var file: Multipart.File?
+    var path: String
     
     public init(name: String, path: String, course:Course) {
         self.name = name
@@ -28,18 +27,17 @@ final class Document: Model {
     
     public convenience init(name: String, file: Multipart.File, course: Course) throws {
         
-        let path = UUID().uuidString + (file.type ?? ".file")
+        let endName = UUID().uuidString + "-" + file.name!
+        let path = workDir + "Public/documents/" + endName
         try file.store(atPath: path)
-        self.init(name: name, path: path, course: course)
-        
-        
+        self.init(name: name, path: "documents/" + endName, course: course)
     }
     
     
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
-            "course": try course()?.makeNode(),
+            "course_id": courseId,
             "name": name,
             "path": path
             ])
