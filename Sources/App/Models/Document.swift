@@ -7,13 +7,15 @@ final class Document: Model {
 
     var id:Node?
     var name:String
-    var file:File
+    var file:Multipart.File?
+    var path: String
     
     var courseId: Node?
     
-    public init(name: String, file: File, course:Course) {
+    public init(name: String, path: String, course:Course) {
         self.name = name
-        self.file = file
+        self.path = path
+        
         self.courseId = course.id
     }
     
@@ -21,8 +23,16 @@ final class Document: Model {
         id = try node.extract("id")
         courseId = try node.extract("course_id")
         name = try node.extract("name")
-        let path: String = try node.extract("file")
-        file = File(path: path)
+        path = try node.extract("path")
+    }
+    
+    public convenience init(name: String, file: Multipart.File, course: Course) throws {
+        
+        let path = UUID().uuidString + (file.type ?? ".file")
+        try file.store(atPath: path)
+        self.init(name: name, path: path, course: course)
+        
+        
     }
     
     
@@ -31,7 +41,7 @@ final class Document: Model {
             "id": id,
             "course": try course()?.makeNode(),
             "name": name,
-            "file": file.path
+            "path": path
             ])
     }
     
@@ -40,7 +50,7 @@ final class Document: Model {
             course.id()
             course.parent(Course.self)
             course.string("name")
-            course.string("file")
+            course.string("path")
         }
     }
     

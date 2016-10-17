@@ -19,6 +19,18 @@ final class Course: Model {
         date = Date(timeIntervalSince1970: timestamp)
     }
     
+    func format() throws -> Node {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yymmdd"
+        
+        return try Node(node: [
+            "id": id,
+            "name": name,
+            "date": dateFormatter.string(from: date)
+            ])
+    }
+    
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,

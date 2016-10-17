@@ -8,6 +8,7 @@ drop.get { req in
     ])
 }
 
-drop.resource("posts", PostController())
+drop.resource("documents", DocumentController())
+drop.resource("courses", CourseController())
 
 drop.run()

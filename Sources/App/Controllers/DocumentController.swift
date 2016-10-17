@@ -40,7 +40,7 @@ extension Document {
             throw Abort.custom(status: .badRequest, message: "No corresponding course found")
         }
                 
-        self.init(name: name, file: File(path: file.name!), course: course)
+        try self.init(name: name, file: file, course: course)
         
     }
 }

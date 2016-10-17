@@ -1,10 +1,20 @@
 import Vapor
 import Fluent
 
-final class File {
-    var path:String
+import Foundation
+
+extension Multipart.File {
     
-    public init(path:String) {
-        self.path = path
+    enum Error: Swift.Error {
+        case notStored
+    }
+    func store(atPath: String) throws {
+        
+        let manager = FileManager.default
+        let storable = Data(bytes: data)
+        
+        guard manager.createFile(atPath: "somepath", contents: storable, attributes: nil) else {
+            throw Error.notStored
+        }
     }
 }

@@ -10,7 +10,7 @@ final class CourseController: ResourceRepresentable {
     }
     
     func create(request: Request) throws -> ResponseRepresentable {
-        var todo = try Course(content: request.data)
+        var todo = try Course(with: request)
         try todo.save()
         return todo
     }
@@ -26,7 +26,7 @@ final class CourseController: ResourceRepresentable {
     
     
     func update(request: Request, course: Course) throws -> ResponseRepresentable {
-        var new = try Course(content: request.data)
+        var new = try Course(with: request)
         new.id = course.id
         try new.save()
         return course
@@ -41,6 +41,18 @@ final class CourseController: ResourceRepresentable {
             modify: update,
             destroy: delete
         )
+    }
+}
+
+extension Course {
+    public convenience init(with request: Request) throws {
+        guard let name = request.data["name"]?.string,
+              let timestamp = request.data["date"]?.double else {
+            throw Abort.badRequest
+        }
+        
+        let date = Date(timeIntervalSince1970: timestamp)
+        self.init(name: name, date: date)
     }
 }
 
