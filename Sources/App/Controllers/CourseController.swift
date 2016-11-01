@@ -12,7 +12,7 @@ final class CourseController: ResourceRepresentable {
     func create(request: Request) throws -> ResponseRepresentable {
         var todo = try Course(with: request)
         try todo.save()
-        return todo
+        return Response(redirect: "/courses")
     }
     
     func show(request: Request, course: Course) throws -> ResponseRepresentable {

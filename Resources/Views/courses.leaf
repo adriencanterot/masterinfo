@@ -1,4 +1,3 @@
-
 #extend("base")
 #export("head") {
 	<title>Courses</title>
@@ -23,4 +22,12 @@
 
 	}
 </table>
+<br/ >
+<form name="addCourse" action="/courses" method="post" enctype="multipart/form-data">
+<label for="name">Course name</label></br>
+<input name="name" type="text"></br>
+<label for="date">Date</label></br>
+<input name="date" type="text" placeholder="integer timestamp"></br>
+<input type="submit" value="Create course !">
+</form>
 }
